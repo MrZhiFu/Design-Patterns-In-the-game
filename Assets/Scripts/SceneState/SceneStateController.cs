@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class SceneStateController {
     private ISceneState sceneState;//申明一个ISceneState对象
     private AsyncOperation ao;//用于接收异步加载场景的返回值， 判断异步加载场景是否加载完毕
-    private bool isRunStart = false;//是否运行过StateStart( )方法
+    private bool isRunStart = false;//是否运行过StateStart( )方法,确保只调用过一次StateStart()方法
 
     /// <summary>
     /// //设置状态方法
@@ -15,9 +15,9 @@ public class SceneStateController {
     /// <param name="sceneState">场景状态接口对象</param>
     /// <param name="isLoadScene">是否需要加载场景（第一个场景不用加载）</param>
     public void SetState(ISceneState sceneState,bool isLoadScene = true) {
-        if (sceneState != null)
+        if (this.sceneState != null)
         {
-            sceneState.StateEnd();//该场景结束后做一下清理工作啥的
+            this.sceneState.StateEnd();//该场景结束后做一下清理工作啥的
         }
         this.sceneState = sceneState;//将该状态（该场景）更新为新状态（新场景）
         if (isLoadScene == true)

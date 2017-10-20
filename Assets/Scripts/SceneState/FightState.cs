@@ -14,15 +14,24 @@ public class FightState : ISceneState
     /// <param name="sceneController">场景控制器</param>
     public FightState(string sceneName, SceneStateController sceneController) : base(sceneName, sceneController){}
 
-    private Button returnMenuBtn;//返回按钮
+    //private Button returnMenuBtn;//返回按钮
+
+    private GameFaced gameFaced;//持有一个外观模式的引用
 
     public override void StateStart()
     {
-        returnMenuBtn = GameObject.Find("ReturnMenuButton").GetComponent<Button>();
-        returnMenuBtn.onClick.AddListener(OnReturnMenuBtnDown); //添加返回主菜单按钮事件监听
+        gameFaced.Init();
     }
-
-    private void OnReturnMenuBtnDown() {//返回按钮点击事件
-        sceneController.SetState(new MainMenuState("MainMenu", sceneController));//设置场景为主菜单场景
+    public override void StateEnd()
+    {
+        gameFaced.Release();
+    }
+    public override void StateUpDate()
+    {
+        if (gameFaced.IsGameOver == true)//如果游戏结束就换到主菜单界面
+        {
+            sceneController.SetState(new MainMenuState("MainMenu", sceneController));
+        }
+        gameFaced.Update();
     }
 }
