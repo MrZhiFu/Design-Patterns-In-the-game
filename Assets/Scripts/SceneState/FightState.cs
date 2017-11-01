@@ -16,22 +16,20 @@ public class FightState : ISceneState
 
     //private Button returnMenuBtn;//返回按钮
 
-    private GameFaced gameFaced;//持有一个外观模式的引用
-
     public override void StateStart()
     {
-        gameFaced.Init();
+        GameFaced.Instace.Init();
     }
     public override void StateEnd()
     {
-        gameFaced.Release();
+        GameFaced.Instace.Release();
     }
     public override void StateUpDate()
     {
-        if (gameFaced.IsGameOver == true)//如果游戏结束就换到主菜单界面
+        if (GameFaced.Instace.IsGameOver == true)//如果游戏结束就换到主菜单界面
         {
             sceneController.SetState(new MainMenuState("MainMenu", sceneController));
         }
-        gameFaced.Update();
+        GameFaced.Instace.Update();
     }
 }
